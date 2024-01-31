@@ -1,0 +1,10 @@
+.header {
+    background-color: black;
+    padding: 2px 20px;
+    text-align: center;
+  }
+  
+  .header-logo {
+    height: 70px; /* Adjust the size as needed */
+  }
+  
