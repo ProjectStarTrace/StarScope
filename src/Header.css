@@ -1,10 +1,36 @@
 .header {
     background-color: black;
-    padding: 2px 20px;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
   }
   
   .header-logo {
     height: 70px; /* Adjust the size as needed */
+  }
+  
+  .header-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .sign-in-btn,
+  .sign-up-btn {
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .sign-in-btn {
+    background-color: transparent;
+    color: white;
+  }
+  
+  .sign-up-btn {
+    background-color: #007bff; /* A blue color for emphasis */
+    color: white;
+    border: 2px solid white; /* Optional: adds more emphasis */
   }
   
