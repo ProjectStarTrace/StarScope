@@ -7,11 +7,11 @@ import Header from './Header';
 import { collection, getDocs, query, limit } from 'firebase/firestore';
 import { db } from './Firebase'; //importing the database from Firebase const js file
 import 'mapbox-gl/dist/mapbox-gl.css';
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
-//mapboxgl.accessToken ='pk.eyJ1Ijoic3RhcnRyYWNlIiwiYSI6ImNsczI1aGV3ZjBpaHkybHBheHFmMzhhdDYifQ.I7rvnP-qM7zkJLCBSJ0QGg'
-
 
 // Set your Mapbox access token
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+
+
 
 function Home() {
     const [map, setMap] = useState(null);
