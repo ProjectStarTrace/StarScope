@@ -6,6 +6,10 @@ function Header() {
   return (
     <div className="header">
       <img src={logo} alt="StarTrace Logo" className="header-logo" />
+      <div className="header-buttons">
+        <button className="sign-in-btn">Sign In</button>
+        <button className="sign-up-btn">Sign Up</button>
+      </div>
     </div>
   );
 }
