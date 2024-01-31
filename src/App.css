@@ -20,6 +20,7 @@
 }
 
 .open-button {
+  z-index: 10; /* Adjust as needed */
   position: absolute;
   top: 70vh; /* Position the button towards the bottom */
   left: 50%;
