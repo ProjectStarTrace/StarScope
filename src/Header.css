@@ -33,4 +33,48 @@
     color: white;
     border: 2px solid white; /* Optional: adds more emphasis */
   }
-  
+  .active-info {
+    display: flex; /* Display inline */
+    gap: 20px; /* Add some space between the elements */
+    color: white; /* Change text color to white */
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.active-info p {
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 20px;
+    animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+
+
+@media (max-width: 500px) {
+    .active-info {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align items to the start of the flex container */
+        gap: 5px; /* Adjust gap between elements if needed */
+    }
+
+    .active-info p {
+        font-size: small; /* Optional: Adjust font size if needed */
+    }
+
+    .header {
+        flex-wrap: wrap; /* Allow items to wrap to the next line */
+    }
+}
+
+
+
+@keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
