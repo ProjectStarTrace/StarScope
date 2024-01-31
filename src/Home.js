@@ -6,6 +6,7 @@ import './Home.css';
 import Header from './Header';
 import { collection, getDocs, query, limit } from 'firebase/firestore';
 import { db } from './Firebase'; //importing the database from Firebase const js file
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 
 // Set your Mapbox access token
@@ -22,20 +23,35 @@ function Home() {
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [0, 0],
         zoom: 1
+        
       });
-  
+      
+      
       mapInstance.addControl(new mapboxgl.NavigationControl());
       setMap(mapInstance);
   
-      // Fetch data from Firestore and display it on the map
-      fetchStarlinkData().then(data => {
-        data.forEach(item => {
-          const { geolocation } = item;
-          new mapboxgl.Marker()
-            .setLngLat([geolocation.longitude, geolocation.latitude])
-            .addTo(mapInstance);
+        // Inside useEffect or a similar setup
+        fetchStarlinkData().then(data => {
+            data.forEach(item => {
+                // Create a popup content string or a DOM element
+                const popupContent = `
+                    <div>
+                        <h3>StarScout Data</h3>
+                        <p><strong>Device ID:</strong> ${item.deviceID  }</p>
+                        <p><strong>RSI:</strong> ${item.rsi}</p>
+                        <p><strong>Last Reported Speed:</strong> ${item.lastReportedSpeed} Mbps</p>
+                        <p><strong>Percentage Uptime:</strong> ${item.percentageUptime}%</p>
+                    </div>
+                `;
+        
+                // Create a marker
+                const marker = new mapboxgl.Marker()
+                    .setLngLat([item.geolocation.longitude, item.geolocation.latitude])
+                    .setPopup(new mapboxgl.Popup().setHTML(popupContent)) // Set the popup
+                    .addTo(mapInstance);
+            });
         });
-      });
+
   
     }, []);
   
@@ -44,9 +60,13 @@ function Home() {
         const usersSnapshot = await getDocs(collection(db, "users")); // Get all user documents
     
         for (const userDoc of usersSnapshot.docs) {
-            const starScoutDataSnapshot = await getDocs(collection(db, `users/${userDoc.id}/starScoutData`)); // Get starScoutData for each user
-            starScoutDataSnapshot.forEach((doc) => {
-                const data = doc.data();
+            const starscoutDataSnapshot = await getDocs(collection(db, `users/${userDoc.id}/starscoutData`)); // Get starScoutData for each user
+            
+            
+            starscoutDataSnapshot.forEach((starScoutDoc) => {
+                const data = starScoutDoc.data();
+        
+                console.log("Fetched data:", data); // Log to inspect the data structure
                 if (data.geolocation) { // Check if geolocation data exists
                     starlinkData.push({
                         ...data,
@@ -62,11 +82,12 @@ function Home() {
         return starlinkData;
     }
     
+    
     return (
-        <home>
+        <main>
             <Header />
             <div id="map" style={{ width: '100%', height: '100vh' }}></div>
-      </home>
+      </main>
     );
   }
   
