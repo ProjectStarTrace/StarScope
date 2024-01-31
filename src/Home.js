@@ -20,7 +20,7 @@ function Home() {
       // Initialize Mapbox map
       const mapInstance = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
+        style: 'mapbox://styles/mapbox/satellite-v9', // Satellite view
         center: [0, 0],
         zoom: 1
         
@@ -43,13 +43,19 @@ function Home() {
                         <p><strong>Percentage Uptime:</strong> ${item.percentageUptime}%</p>
                     </div>
                 `;
-        
-                // Create a marker
-                const marker = new mapboxgl.Marker()
+                const markerColor = item.rsi < 50 ? 'red' : 'green'; //Marks good or bad RSI with color
+                                
+                // Create a marker for each data point
+                const marker = new mapboxgl.Marker({ "color": markerColor })
                     .setLngLat([item.geolocation.longitude, item.geolocation.latitude])
                     .setPopup(new mapboxgl.Popup().setHTML(popupContent)) // Set the popup
                     .addTo(mapInstance);
+
+
+                    
             });
+
+            
         });
 
   
