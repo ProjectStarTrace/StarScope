@@ -1,8 +1,8 @@
 .header {
     background-color: black;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 10px 20px;
   }
   
@@ -42,6 +42,7 @@
 }
 
 .active-info p {
+    display: flex; 
     margin: 0;
     overflow: hidden;
     white-space: nowrap;
@@ -51,21 +52,33 @@
 
 
 @media (max-width: 500px) {
+      .header-buttons .sign-up-btn {
+        display: none;
+    }
+
+    /* Hide Active Users and Active Scouts */
     .active-info {
-        flex-direction: column; /* Stack elements vertically */
-        align-items: flex-start; /* Align items to the start of the flex container */
-        gap: 5px; /* Adjust gap between elements if needed */
+        display: none;
     }
 
-    .active-info p {
-        font-size: small; /* Optional: Adjust font size if needed */
+    /* Optionally, adjust the sign-in button style if needed */
+    .header-buttons .sign-in-btn {
+        /* Style adjustments for the sign-in button on small screens */
     }
 
-    .header {
-        flex-wrap: wrap; /* Allow items to wrap to the next line */
-    }
 }
 
+@media (max-width: 750px) {
+  /* Hide Active Users and Active Scouts */
+  .active-info {
+      display: none;
+  }
+
+  /* Keep the buttons visible */
+  .header-buttons {
+      display: flex;
+  }
+}
 
 
 @keyframes slideInFromLeft {
