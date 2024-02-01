@@ -13,7 +13,7 @@ function SignupPage() {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed up successfully
-                navigate('/Profile'); // Navigate to the home page or dashboard
+                navigate('/profile'); // Navigate to the home page or dashboard
             })
             .catch((error) => {
                 console.error('Signup error:', error);

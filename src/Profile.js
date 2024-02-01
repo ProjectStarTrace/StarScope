@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, deleteUser } from 'firebase/auth';
+import Header from './Header';
 
 function Profile() {
     const auth = getAuth();
@@ -24,6 +25,7 @@ function Profile() {
 
     return (
         <div>
+            <Header />
             <h1>Profile</h1>
             <p>Email: {user ? user.email : "No user logged in"}</p>
             <button onClick={handleDeleteAccount}>Delete Account</button>

@@ -13,7 +13,7 @@ function LoginPage() {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in successfully
-                navigate('/Profile'); // Navigate to the home page or dashboard
+                navigate('/profile'); // Navigate to the home page or dashboard
             })
             .catch((error) => {
                 console.error('Login error:', error);
@@ -26,7 +26,7 @@ function LoginPage() {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
             .then((result) => {
-                navigate('/Profile'); // Navigate to the home page or dashboard
+                navigate('/profile'); // Navigate to the home page or dashboard
             })
             .catch((error) => {
                 console.error('Google login error:', error);
