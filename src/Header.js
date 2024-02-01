@@ -6,12 +6,13 @@ import logo from './assets/StarTraceLogo_white.svg'; // Ensure this path is corr
 import './Header.css'; // CSS file for styling the header
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { useLocation } from 'react-router-dom';
+
 
 function Header() {
-
+    const location = useLocation();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const auth = getAuth();
-
 
     const [activeUsers, setActiveUsers] = useState(0);
     const [activeScouts, setActiveScouts] = useState(0);
@@ -20,6 +21,8 @@ function Header() {
 
     const goToLogin = () => navigate('/login');
     const goToSignup = () => navigate('/signup');
+
+    const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
 
     useEffect(() => {
         fetchActiveUsersAndScouts();
@@ -62,12 +65,14 @@ function Header() {
     return (
         <div className="header">
             <img src={logo} alt="StarTrace Logo" className="header-logo" />
+            {!isAuthPage && (
+                <>
             <div className="active-info">
                 <p>Active Users: {activeUsers}</p>
                 <p>Active Scouts: {activeScouts}</p>
             </div>
             <div className="header-buttons">
-        {isLoggedIn ? (
+            {isLoggedIn ? (
                 <>
                     <button className="auth-button" onClick={() => navigate('/profile')}>Profile</button>
                     <button className="auth-button" onClick={handleLogout}>Log Out</button>
@@ -78,7 +83,10 @@ function Header() {
                     <button className="sign-up-btn" onClick={() => navigate('/signup')}>Sign Up</button>
                 </>
             )}
-      </div>
+            </div>
+        
+            </>
+         )}
         </div>
     );
 }

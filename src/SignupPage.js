@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import Header from './Header';
 
 function SignupPage() {
     const [email, setEmail] = useState('');
@@ -35,6 +36,7 @@ function SignupPage() {
 
     return (
         <div>
+            <Header />
             <h1>Sign Up</h1>
             <input 
                 type="email" 
