@@ -91,3 +91,14 @@
       opacity: 1;
     }
   }
+
+  .auth-button {
+    padding: 10px 15px;
+    background-color: #007bff; /* Example color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    /* Add any other styles you want for your buttons */
+}
