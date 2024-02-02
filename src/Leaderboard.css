@@ -49,3 +49,11 @@
     /* Other styles */
 }
 
+.leaderboard-flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); /* Assuming the header is 60px tall */
+    padding-top: 60px; /* If there's a fixed header, adjust accordingly */
+}
+
