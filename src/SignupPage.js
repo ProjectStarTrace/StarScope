@@ -5,6 +5,9 @@ import Header from './Header';
 import { db } from './Firebase'; // Make sure this import points to your Firebase config file
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import './SignupPage.css'; // Assuming you have a CSS file for this component
+import GoogleSignInIcon from './assets/googleSignIn.png';
+import accountAuthBackground from './assets/accountAuthBackground.png'; // Import the background image
+
 
 function SignupPage() {
     const [email, setEmail] = useState('');
@@ -56,7 +59,7 @@ function SignupPage() {
     return (
         <>
         <Header />
-        <div className="signup-container">
+        <div className="signup-container" style={{ backgroundImage: `url(${accountAuthBackground})` }}>
             <div className="signup-box">
                 <h1>Sign Up</h1>
                 <label htmlFor="username">Username</label>
@@ -84,8 +87,12 @@ function SignupPage() {
                     placeholder="Password"
                 />
                 <button onClick={handleSignupWithEmail}>Sign Up</button>
-                <button onClick={handleSignupWithGoogle}>Sign Up with Google</button>
             </div>
+
+            <button onClick={handleSignupWithGoogle} className="google-signin-btn">
+            <img src={GoogleSignInIcon} alt="Sign up with Google" />
+            </button>
+
             <button className="use-without-account-btn" onClick={() => navigate('/home  ')}>Use without Account</button>
         </div>
         </>

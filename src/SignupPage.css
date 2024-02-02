@@ -43,3 +43,38 @@
     border: none;
     cursor: pointer;
 }
+
+.google-signin-btn {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    margin-top: 20px; /* Add space above the button */
+    height: 40px; /* Adjust based on your needs */
+    width: auto; /* Scales width to maintain aspect ratio */
+}
+
+
+.google-signin-btn img {
+    height: 40px; /* Adjust based on your needs while maintaining aspect ratio */
+    width: auto; /* This will scale the width to maintain the aspect ratio */
+}
+
+.signup-container {
+    /* Existing styles for layout */
+    height: 100vh; /* Make sure the container fills the whole viewport height */
+    width: 100vw; /* Fill the whole viewport width */
+    background-image: url('./assets/accountAuthBackground.png'); /* Adjust the path as necessary */
+    background-size: cover; /* Cover the entire page */
+    background-position: center; /* Center the background image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
