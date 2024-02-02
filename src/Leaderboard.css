@@ -1,0 +1,45 @@
+/* Leaderboard.css */
+.leaderboard-container {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa; /* Light background for the container */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.leaderboard-title {
+    color: #007bff; /* Highlight the title with a vibrant color */
+    margin-bottom: 20px;
+}
+
+.leaderboard-list {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0;
+}
+
+.leaderboard-item {
+    background-color: #ffffff; /* Background for items */
+    color: #333; /* Text color */
+    padding: 10px 20px;
+    margin: 10px 0; /* Space between items */
+    border-radius: 5px; /* Rounded corners for items */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for each item */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.leaderboard-item strong {
+    color: #007bff; /* Color for the username */
+    font-size: 1.1em; /* Slightly larger font for emphasis */
+}
+
+.leaderboard-item span {
+    background-color: #007bff; /* Vibrant background for the rank */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 50%; /* Circular shape for the rank */
+    font-weight: bold;
+}
