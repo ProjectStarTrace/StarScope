@@ -43,3 +43,9 @@
     border-radius: 50%; /* Circular shape for the rank */
     font-weight: bold;
 }
+
+.leaderboard-container {
+    margin-top: 50px; /* Adjust the value as needed */
+    /* Other styles */
+}
+

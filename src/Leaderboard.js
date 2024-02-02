@@ -4,6 +4,7 @@ import { db } from './Firebase'; // Adjust this import as necessary
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import './Leaderboard.css';
 import Header from './Header';
+import leaderboardBackground from './assets/leaderboardBackground.jpg';
 
 function Leaderboard() {
     const [leaderboardData, setLeaderboardData] = useState([]);
@@ -34,6 +35,26 @@ function Leaderboard() {
         };
 
         fetchLeaderboardData();
+    }, []);
+
+    useEffect(() => {
+        // Apply background image to the body when the component mounts
+        document.body.style.backgroundImage = `url(${leaderboardBackground})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+        document.body.style.margin = '0'; // Remove default margin
+        document.body.style.height = '100%'; // Ensure height covers full page height
+        document.body.style.backgroundAttachment = 'fixed'; // Optional: Fixes background during scroll
+
+        // Cleanup function to reset the body's background when the component unmounts
+        return () => {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundSize = '';
+            document.body.style.backgroundPosition = '';
+            document.body.style.margin = '';
+            document.body.style.height = '';
+            document.body.style.backgroundAttachment = '';
+        };
     }, []);
 
     return (
