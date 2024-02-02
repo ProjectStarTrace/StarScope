@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import Header from './Header';
+import './LoginPage.css';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -35,24 +36,33 @@ function LoginPage() {
     };
 
     return (
-        <div>
-            <Header />
-            <h1>Login</h1>
-            <input 
-                type="email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                placeholder="Email" 
-            />
-            <input 
-                type="password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                placeholder="Password" 
-            />
-            <button onClick={handleLoginWithEmail}>Log In</button>
-            <button onClick={handleLoginWithGoogle}>Log In with Google</button>
+        <>
+        <Header />
+        <div className="login-container">
+            <div className="login-box">
+                <h1>Login</h1>
+                <label htmlFor="login-email">Email</label>
+                <input
+                    id="login-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                />
+                <label htmlFor="login-password">Password</label>
+                <input
+                    id="login-password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                />
+                <button onClick={handleLoginWithEmail}>Log In</button>
+                <button onClick={handleLoginWithGoogle}>Log In with Google</button>
+            </div>
+            <button className="use-without-account-btn" onClick={() => navigate('/home')}>Use without Account</button>
         </div>
+        </>
     );
 }
 

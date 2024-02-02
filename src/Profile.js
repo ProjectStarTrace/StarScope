@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, deleteUser } from 'firebase/auth';
+import { getAuth, deleteUser, onAuthStateChanged     } from 'firebase/auth';
 import Header from './Header';
 
 function Profile() {
     const auth = getAuth();
     const user = auth.currentUser;
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // No user is signed in, redirect to home
+                navigate('/');
+            }
+            // If user is signed in, you can access the user object here, if needed
+        });
+
+        // Cleanup the subscription on component unmount
+        return () => unsubscribe();
+    }, [navigate, auth]);
+
 
     const handleDeleteAccount = () => {
         // Confirm before deleting the account
