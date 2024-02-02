@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import Header from './Header';
 import './LoginPage.css';
+import GoogleSignInIcon from './assets/googleSignIn.png';
+import accountAuthBackground from './assets/accountAuthBackground.png'; // Import the background image
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -38,7 +40,7 @@ function LoginPage() {
     return (
         <>
         <Header />
-        <div className="login-container">
+        <div className="login-container" style={{ backgroundImage: `url(${accountAuthBackground})` }}>
             <div className="login-box">
                 <h1>Login</h1>
                 <label htmlFor="login-email">Email</label>
@@ -58,9 +60,15 @@ function LoginPage() {
                     placeholder="Password"
                 />
                 <button onClick={handleLoginWithEmail}>Log In</button>
-                <button onClick={handleLoginWithGoogle}>Log In with Google</button>
             </div>
+
+            <button onClick={handleLoginWithGoogle} className="google-signin-btn">
+            <img src={GoogleSignInIcon} alt="Sign up with Google" />
+            </button>
+
             <button className="use-without-account-btn" onClick={() => navigate('/home')}>Use without Account</button>
+            
+
         </div>
         </>
     );

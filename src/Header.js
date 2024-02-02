@@ -4,9 +4,9 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from './Firebase'; // Adjust this import according to your project structure
 import logo from './assets/StarTraceLogo_white.svg'; // Ensure this path is correct
 import './Header.css'; // CSS file for styling the header
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { useLocation } from 'react-router-dom';
+
 
 
 function Header() {
@@ -30,6 +30,7 @@ function Header() {
     useEffect(() => {
         fetchActiveUsersAndScouts();
     }, []);
+    
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -46,6 +47,10 @@ function Header() {
         }).catch((error) => {
             console.error('Logout error', error);
         });
+    };
+
+    const navigateHome = () => {
+        navigate('/home');
     };
 
     const fetchActiveUsersAndScouts = async () => {
@@ -67,8 +72,9 @@ function Header() {
 
     return (
         <div className="header">
-            <img src={logo} alt="StarTrace Logo" className="header-logo" />
+            <img src={logo} alt="StarTrace Logo" onClick={navigateHome} className="header-logo" />
 
+            
             {isLoggedIn && isProfilePage ? (
                 <div classname ="header-buttons">
                 <button className="auth-button" onClick={goToHome}>View Scope</button>

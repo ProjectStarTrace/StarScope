@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, deleteUser, onAuthStateChanged     } from 'firebase/auth';
 import Header from './Header';
+import './Profile.css'
 
 function Profile() {
+    const [deviceID, setDeviceID] = useState('');   
     const auth = getAuth();
     const user = auth.currentUser;
     const navigate = useNavigate();
@@ -37,14 +39,46 @@ function Profile() {
         }
     };
 
+
+    const handleAddDevice = () => {
+        console.log('Adding Device ID:', deviceID);
+        // Implement the logic to add the Scout DeviceID to your database
+        setDeviceID(''); // Reset input field after adding
+    };
+
+
     return (
-        <div>
+        <>
             <Header />
-            <h1>Profile</h1>
-            <p>Email: {user ? user.email : "No user logged in"}</p>
-            <button onClick={handleDeleteAccount}>Delete Account</button>
-        </div>
+            <div className="profile-container">
+                <div className="section">
+                    <h1>Account Information</h1>
+                    <p>Email: {user ? user.email : ''}</p>
+                </div>
+                <div className="section">
+                    <h2>StarLink Metrics</h2>
+                    {/* Display StarLink Metrics here */}
+                </div>
+                <div className="section">
+                    <h2>Active Scouts</h2>
+                    {/* Dynamically list active scouts here */}
+                    <hr /> {/* Separating line */}
+                    <div className="add-scout-subsection">
+                        <h3>Add Scout Device</h3>
+                        <input 
+                            type="text" 
+                            value={deviceID} 
+                            onChange={(e) => setDeviceID(e.target.value)} 
+                            placeholder="Enter Scout DeviceID"
+                        />
+                        <button onClick={handleAddDevice}>Add</button>
+                    </div>
+                </div>
+                <button onClick={handleDeleteAccount} className="delete-account-btn">Delete Account</button>
+            </div>
+        </>
     );
+    
 }
 
 export default Profile;
