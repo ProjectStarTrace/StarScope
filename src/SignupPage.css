@@ -68,13 +68,16 @@
     /* Existing styles for layout */
     height: 100vh; /* Make sure the container fills the whole viewport height */
     width: 100vw; /* Fill the whole viewport width */
-    background-image: url('./assets/accountAuthBackground.png'); /* Adjust the path as necessary */
-    background-size: cover; /* Cover the entire page */
-    background-position: center; /* Center the background image */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-
+/* Add or adjust other styles for .signup-box, inputs, and buttons as needed */
+.profile-page-background {
+    background-image: url('./assets/starBackground.png'); /* Adjust the path as needed */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh; /* Make sure it covers the full height */
+}

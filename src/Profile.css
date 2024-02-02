@@ -7,8 +7,9 @@
 }
 
 .section {
-    margin-bottom: 20px;
-    padding: 20px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 20px;
     background-color: #f0f0f0; /* Light grey background for contrast */
     border-radius: 5px; /* Rounded corners for a softer look */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
@@ -22,8 +23,18 @@
     background-color: #ccc; /* Grey line for separation */
 }
 
+.section h2 {
+    margin-top: 10px; /* Reduce top margin to bring the title closer to the top of the section */
+    /* Other existing styles (font-size, color, etc.) */
+}
+.section hr {
+    margin-top: 10px; /* Reduce the top margin for smaller space above the line */
+    margin-bottom: 20px; /* Increase the bottom margin for larger space below the line */
+}
+
+
 .add-scout-subsection {
-    padding-top: 10px;
+    padding-bottom: 30px; /* Increase padding at the bottom of the 'Add Scout Device' subsection */
 }
 
 .add-scout-subsection h3 {
