@@ -5,6 +5,8 @@ import Home from './Home'; // Import the home component
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import Profile from './Profile';
+import Leaderboard from './Leaderboard'; // Import the Leaderboard component
+
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </Router>
   );
