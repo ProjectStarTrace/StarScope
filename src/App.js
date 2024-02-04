@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Welcome from './Welcome';
+import Splash from './Splash';
 import Home from './Home'; // Import the home component
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
@@ -12,7 +12,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Welcome />} />
+        <Route path="/" element={<Splash />} />
         <Route path="/home" element={<Home />} /> {/* Add the Home route */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
