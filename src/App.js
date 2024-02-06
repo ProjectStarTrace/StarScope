@@ -6,7 +6,10 @@ import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import Profile from './Profile';
 import Leaderboard from './Leaderboard'; // Import the Leaderboard component
-
+import WelcomePage from './WelcomePage';
+import ChooseUsername from './ChooseUsername';
+import UserInterest from './UserInterest';
+import DownloadStarScout from './DownloadStarScout';
 
 function App() {
   return (
@@ -18,6 +21,10 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/onboarding/welcome" element={<WelcomePage />} />
+        <Route path="/onboarding/choose-username" element={<ChooseUsername />} />
+        <Route path="/onboarding/user-interest" element={<UserInterest />} />
+        <Route path="/onboarding/download-starscout" element={<DownloadStarScout />} />
       </Routes>
     </Router>
   );

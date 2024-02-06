@@ -81,3 +81,35 @@
     background-position: center;
     min-height: 100vh; /* Make sure it covers the full height */
 }
+
+.error-message {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Darker red text for contrast */
+    border: 1px solid #f5c6cb; /* Slightly lighter red border */
+    border-radius: 4px; /* Rounded corners */
+    text-align: center;
+    width: 80%; /* Adjust based on your layout */
+    max-width: 400px; /* Prevents the message box from becoming too wide on larger screens */
+    box-sizing: border-box;
+    margin-left: auto; /* Center the message */
+    margin-right: auto;
+}
+
+.error-message .signin-redirect-btn {
+    display: inline-block; /* Allows setting of width and height */
+    margin-top: 15px; /* Spacing above the button */
+    padding: 10px 20px; /* Button padding for clickability */
+    background-color: #007bff; /* A pleasant shade of blue */
+    color: white; /* White text for contrast */
+    border: none; /* No border for a modern look */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Changes the cursor to indicate clickability */
+    text-decoration: none; /* Removes underline from links if you use an <a> tag */
+    font-weight: bold; /* Makes the text bold */
+}
+
+.error-message .signin-redirect-btn:hover {
+    background-color: #0056b3; /* Darker shade of blue on hover for feedback */
+}
