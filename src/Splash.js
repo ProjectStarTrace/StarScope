@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-function Welcome() {
+function Splash() {
     let navigate = useNavigate();
     
     const goToHome = () => {
@@ -25,4 +25,4 @@ function Welcome() {
   );
 }
 
-export default Welcome;
+export default Splash;
