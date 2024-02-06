@@ -1,0 +1,26 @@
+
+
+.onboarding-fullscreen {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #123456; /* Example background color */
+    color: #ffffff; /* Example text color */
+}
+
+.onboarding-fullscreen button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #123456;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
