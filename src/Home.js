@@ -63,10 +63,10 @@ function Home() {
   
     async function fetchStarlinkData() {
         const starlinkData = [];
-        const usersSnapshot = await getDocs(collection(db, "users")); // Get all user documents
+        const usersSnapshot = await getDocs(collection(db, "starscoutData")); // Get all user documents
     
         for (const userDoc of usersSnapshot.docs) {
-            const starscoutDataSnapshot = await getDocs(collection(db, `users/${userDoc.id}/starscoutData`)); // Get starScoutData for each user
+            const starscoutDataSnapshot = await getDocs(collection(db, `starscoutData/${userDoc.id}/entries`)); // Get starScoutData for each user
             
             
             starscoutDataSnapshot.forEach((starScoutDoc) => {
