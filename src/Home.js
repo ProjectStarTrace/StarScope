@@ -32,6 +32,8 @@ function Home() {
   
         // Inside useEffect or a similar setup
         fetchStarlinkData().then(data => {
+            const bounds = new mapboxgl.LngLatBounds();
+
             data.forEach(item => {
                 // Create a popup content string or a DOM element
                 const popupContent = `
@@ -52,10 +54,13 @@ function Home() {
                     .setPopup(new mapboxgl.Popup().setHTML(popupContent)) // Set the popup
                     .addTo(mapInstance);
 
-
-                    
+                // Extend the bounds to include each marker's position
+                bounds.extend([item.geolocation.longitude, item.geolocation.latitude]);     
             });
-
+            mapInstance.fitBounds(bounds, {
+                padding: 175 // Adjust the padding as needed
+             
+            });
             
         });
 
