@@ -1,6 +1,6 @@
 # StarScope | a view into the stars
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The StarTrace project is an community-driven project dedicated to protecting Starlink satellites from jamming attacks. Its goal is to create a first-of-its-kind, comprehensive public overview of the StarLink satellite network, enhancing its security and functionality for users around the globe. StarScope is the interactive experience of the project acting as the point-of-contact for new users.
 
 ## Available Scripts
 
