@@ -37,10 +37,11 @@ function Home() {
                 const popupContent = `
                     <div>
                         <h3>StarScout Data</h3>
-                        <p><strong>Device ID:</strong> ${item.deviceID  }</p>
-                        <p><strong>RSI:</strong> ${item.rsi}</p>
-                        <p><strong>Last Reported Speed:</strong> ${item.lastReportedSpeed} Mbps</p>
-                        <p><strong>Percentage Uptime:</strong> ${item.percentageUptime}%</p>
+                        <p><strong>Scout ID:</strong> ${item.ScoutID  }</p>
+                        <p><strong>Location:</strong> ${item.City}, ${item.Region}, ${item.Country}</p>
+                        <p><strong>Download (mbps)</strong> ${item.DownloadSpeed} Mbps</p>
+                        <p><strong>Upload (mbps)</strong> ${item.UploadSpeed} Mbps</p>
+                        <p><strong>Last Updated:</strong> ${item.DateTime}</p>
                     </div>
                 `;
                 const markerColor = item.rsi < 50 ? 'red' : 'green'; //Marks good or bad RSI with color
@@ -62,31 +63,36 @@ function Home() {
     }, []);
   
     async function fetchStarlinkData() {
-        const starlinkData = [];
+        const starlinkDataMap = {}; // Use an object to track the latest entry for each ScoutID
         const usersSnapshot = await getDocs(collection(db, "starscoutData")); // Get all user documents
     
         for (const userDoc of usersSnapshot.docs) {
-            const starscoutDataSnapshot = await getDocs(collection(db, `starscoutData/${userDoc.id}/entries`)); // Get starScoutData for each user
-            
-            
+            const starscoutDataSnapshot = await getDocs(collection(db, `starscoutData/`)); // Assuming this is meant to fetch individual entries
+    
             starscoutDataSnapshot.forEach((starScoutDoc) => {
                 const data = starScoutDoc.data();
-        
+    
                 console.log("Fetched data:", data); // Log to inspect the data structure
-                if (data.geolocation) { // Check if geolocation data exists
-                    starlinkData.push({
-                        ...data,
-                        geolocation: {
-                            latitude: data.geolocation.latitude,
-                            longitude: data.geolocation.longitude
-                        }
-                    });
+                if (data.geolocation && data.DateTime) { // Ensure geolocation and DateTime data exists
+                    const existingEntry = starlinkDataMap[data.ScoutID];
+                    if (!existingEntry || new Date(data.DateTime) > new Date(existingEntry.DateTime)) {
+                        // If there's no existing entry for this ScoutID or the current entry is more recent, update the map
+                        starlinkDataMap[data.ScoutID] = {
+                            ...data,
+                            geolocation: {
+                                latitude: data.geolocation.latitude,
+                                longitude: data.geolocation.longitude
+                            }
+                        };
+                    }
                 }
             });
         }
     
-        return starlinkData;
+        // Convert the map (object) back into an array of its values, which are the data entries
+        return Object.values(starlinkDataMap);
     }
+    
     
     
     return (

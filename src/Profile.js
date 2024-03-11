@@ -1,50 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, deleteUser, onAuthStateChanged} from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from './Firebase'; // Ensure this points to your Firestore setup
-
+import { getAuth, deleteUser, onAuthStateChanged } from 'firebase/auth';
+import { db } from './Firebase';
+import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import Header from './Header';
-import './Profile.css'
-import starBackground from './assets/starBackground.png'; // Adjust the path as needed
+import './Profile.css';
+import starBackground from './assets/starBackground.png';
 
 function Profile() {
-    const [deviceID, setDeviceID] = useState('');  
-    const [userDetails, setUserDetails] = useState({ username: '', createdAt: '' }); 
+    const [deviceID, setDeviceID] = useState('');
+    const [userDetails, setUserDetails] = useState({ username: '', createdAt: '' });
+    const [activeScouts, setActiveScouts] = useState([]);
     const auth = getAuth();
     const user = auth.currentUser;
     const navigate = useNavigate();
 
     useEffect(() => {
-    // Set the background style dynamically when the component mounts
-    document.body.style.backgroundImage = `url(${starBackground})`;
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundPosition = 'center';
+        document.body.style.backgroundImage = `url(${starBackground})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
 
-    // Cleanup: Reset the background style when the component unmounts
-    return () => {
-        document.body.style.backgroundImage = '';
-        document.body.style.backgroundSize = '';
-        document.body.style.backgroundPosition = '';
-    };
-}, []);
+        return () => {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundSize = '';
+            document.body.style.backgroundPosition = '';
+        };
+    }, []);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
-                // No user is signed in, redirect to home
                 navigate('/');
             }
-            // If user is signed in, you can access the user object here, if needed
         });
 
-        // Cleanup the subscription on component unmount
         return () => unsubscribe();
     }, [navigate, auth]);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
-            const user = auth.currentUser;
             if (user) {
                 const userRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(userRef);
@@ -53,8 +47,6 @@ function Profile() {
                         username: docSnap.data().username,
                         createdAt: docSnap.data().createdAt,
                     });
-                } else {
-                    console.log("No such document!");
                 }
             } else {
                 navigate('/');
@@ -62,15 +54,30 @@ function Profile() {
         };
 
         fetchUserDetails();
-    }, [navigate, auth]);
+    }, [navigate, auth, user]);
+
+    useEffect(() => {
+        const fetchActiveScouts = async () => {
+            if (userDetails.username) {
+                const scoutsQuery = query(collection(db, "starScoutData"), where("username", "==", userDetails.username));
+                const querySnapshot = await getDocs(scoutsQuery);
+                const scouts = [];
+                querySnapshot.forEach((doc) => {
+                    scouts.push(doc.data());
+                });
+                setActiveScouts(scouts);
+            }
+        };
+
+        fetchActiveScouts();
+    }, [userDetails.username]);
 
     const handleDeleteAccount = () => {
-        // Confirm before deleting the account
         if (window.confirm("Are you sure you want to delete your account?")) {
             deleteUser(user)
                 .then(() => {
                     alert("Account deleted successfully.");
-                    navigate('/home'); // Redirect to signup page after deletion
+                    navigate('/home');
                 })
                 .catch((error) => {
                     console.error('Error deleting account:', error);
@@ -79,37 +86,38 @@ function Profile() {
         }
     };
 
-
     const handleAddDevice = () => {
         console.log('Adding Device ID:', deviceID);
-        // Implement the logic to add the Scout DeviceID to your database
-        setDeviceID(''); // Reset input field after adding
+        setDeviceID('');
     };
-
 
     return (
         <>
             <Header />
             <div className="profile-container">
+                {/* Account Information Section */}
                 <div className="section">
-                <h2>Account Information</h2>
+                    <h2>Account Information</h2>
                     <p>Email: {user ? user.email : ''}</p>
                     <p>Username: {userDetails.username}</p>
                     <p>Date Created: {user ? user.metadata.creationTime : ''}</p>
-                    
                 </div>
+                {/* StarLink Metrics Section */}
                 <div className="section">
                     <h2>StarLink Metrics</h2>
-                    <p>Placeholder unit data is added</p>
-                    {/* Display StarLink Metrics here */}
+                    {/* Placeholder for StarLink Metrics */}
                 </div>
+                {/* Active Scouts Section */}
                 <div className="section">
                     <h2>Active Scouts</h2>
-                    {/* Dynamically list active scouts here */}
-                    <p>PLACEHOLDER1</p>
-                    <p>PLACEHOLDER2</p>
-                    <p>PLACEHOLDER3</p>
-                    <hr /> {/* Separating line */}
+                    {activeScouts.length > 0 ? (
+                        activeScouts.map((scout, index) => (
+                            <p key={index}>Scout ID: {scout.deviceID} - Data: {JSON.stringify(scout)}</p>
+                        ))
+                    ) : (
+                        <p>No active scouts found.</p>
+                    )}
+                    <hr />
                     <div className="add-scout-subsection">
                         <h3>Add New Scout Device</h3>
                         <input 
@@ -125,7 +133,6 @@ function Profile() {
             </div>
         </>
     );
-    
 }
 
 export default Profile;

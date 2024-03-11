@@ -55,19 +55,19 @@ function Header() {
 
     const fetchActiveUsersAndScouts = async () => {
         // Fetch total number of users
-        const usersSnapshot = await getDocs(collection(db, "starscoutData"));
+        const usersSnapshot = await getDocs(collection(db, "users"));
         setActiveUsers(usersSnapshot.size);
     
-        let deviceIDs = new Set();
+        let ScoutIDs = new Set();
     
         for (const userDoc of usersSnapshot.docs) {
             const starscoutDataSnapshot = await getDocs(collection(db, `starscoutData`));
             starscoutDataSnapshot.forEach(doc => {
-                deviceIDs.add(doc.data().deviceID);
+                ScoutIDs.add(doc.data().ScoutID);
             });
         }
     
-        setActiveScouts(deviceIDs.size);
+        setActiveScouts(ScoutIDs.size);
     };
 
     return (
