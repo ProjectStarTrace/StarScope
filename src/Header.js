@@ -17,7 +17,7 @@ function Header() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const auth = getAuth();
     const [activeUsers, setActiveUsers] = useState(0);
-    const [activeScouts, setActiveScouts] = useState(0);
+    const [scoutUploads, setScoutUploads] = useState(0);
 
     const navigate = useNavigate();
     const goToLogin = () => navigate('/login');
@@ -60,14 +60,9 @@ function Header() {
     
         let ScoutIDs = new Set();
     
-        for (const userDoc of usersSnapshot.docs) {
-            const starscoutDataSnapshot = await getDocs(collection(db, `starscoutData`));
-            starscoutDataSnapshot.forEach(doc => {
-                ScoutIDs.add(doc.data().ScoutID);
-            });
-        }
-    
-        setActiveScouts(ScoutIDs.size);
+        
+        const starscoutDataSnapshot = await getDocs(collection(db, `starscoutData`));
+        setScoutUploads(starscoutDataSnapshot.size)
     };
 
     return (
@@ -84,7 +79,7 @@ function Header() {
             <>
                 <div className="active-info">
                     <p>Active Users: {activeUsers}</p>
-                    <p>Active Scouts: {activeScouts}</p>
+                    <p>StarScout Uploads: {scoutUploads}</p>
                 </div>
                 <div className="header-buttons">
                 {isLoggedIn ? (
