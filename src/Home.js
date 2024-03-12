@@ -69,43 +69,43 @@ function Home() {
     }, []);
   
     async function fetchStarlinkData() {
-        const starlinkDataMap = {}; // Use an object to track the latest entry for each ScoutID
-        const uploadCounts = {}; // New object to keep track of upload counts for each ScoutID
-        const usersSnapshot = await getDocs(collection(db, "starscoutData")); // Get all user documents
+        const starlinkDataMap = {}; // Tracks the latest entry for each ScoutID
+        const uploadCounts = {}; // Tracks upload counts for each ScoutID
+        
+        // Perform a single read operation to get all entries
+        const starscoutDataSnapshot = await getDocs(collection(db, "starscoutData"));
     
-        for (const userDoc of usersSnapshot.docs) {
-            const starscoutDataSnapshot = await getDocs(collection(db, `starscoutData/`)); // Assuming this is meant to fetch individual entries
+        starscoutDataSnapshot.forEach((doc) => {
+            const data = doc.data();
     
-            starscoutDataSnapshot.forEach((starScoutDoc) => {
-                const data = starScoutDoc.data();
-    
-                console.log("Fetched data:", data); // Log to inspect the data structure
-                if (data.geolocation && data.DateTime) { // Ensure geolocation and DateTime data exists
-                    const existingEntry = starlinkDataMap[data.ScoutID];
-                    // Update upload count for each ScoutID
-                    if (uploadCounts[data.ScoutID]) {
-                        uploadCounts[data.ScoutID]++;
-                    } else {
-                        uploadCounts[data.ScoutID] = 1;
-                    }
-                    if (!existingEntry || new Date(data.DateTime) > new Date(existingEntry.DateTime)) {
-                        // If there's no existing entry for this ScoutID or the current entry is more recent, update the map
-                        starlinkDataMap[data.ScoutID] = {
-                            ...data,
-                            geolocation: {
-                                latitude: data.geolocation.latitude,
-                                longitude: data.geolocation.longitude
-                            },
-                            uploadCount: uploadCounts[data.ScoutID] // Add the upload count here
-                        };
-                    }
+            if (data.geolocation && data.DateTime) { // Ensure geolocation and DateTime data exists
+                // Update upload count for each ScoutID
+                if (uploadCounts[data.ScoutID]) {
+                    uploadCounts[data.ScoutID]++;
+                } else {
+                    uploadCounts[data.ScoutID] = 1;
                 }
-            });
-        }
+    
+                // Check if the current document's date is more recent than what we have stored
+                const existingEntry = starlinkDataMap[data.ScoutID];
+                if (!existingEntry || new Date(data.DateTime) > new Date(existingEntry.DateTime)) {
+                    // Update the map with the more recent entry, including its upload count
+                    starlinkDataMap[data.ScoutID] = {
+                        ...data,
+                        geolocation: {
+                            latitude: data.geolocation.latitude,
+                            longitude: data.geolocation.longitude
+                        },
+                        uploadCount: uploadCounts[data.ScoutID] // Store the upload count here
+                    };
+                }
+            }
+        });
     
         // Convert the map (object) back into an array of its values, which are the data entries
         return Object.values(starlinkDataMap);
     }
+    
     
     
     
