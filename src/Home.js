@@ -43,6 +43,7 @@ function Home() {
                         <p><strong>Location:</strong> ${item.City}, ${item.Region}, ${item.Country}</p>
                         <p><strong>Download (mbps)</strong> ${item.DownloadSpeed} Mbps</p>
                         <p><strong>Upload (mbps)</strong> ${item.UploadSpeed} Mbps</p>
+                        <p><strong>Upload Count:</strong> ${item.uploadCount}</p> 
                         <p><strong>Last Updated:</strong> ${item.DateTime}</p>
                     </div>
                 `;
@@ -69,6 +70,7 @@ function Home() {
   
     async function fetchStarlinkData() {
         const starlinkDataMap = {}; // Use an object to track the latest entry for each ScoutID
+        const uploadCounts = {}; // New object to keep track of upload counts for each ScoutID
         const usersSnapshot = await getDocs(collection(db, "starscoutData")); // Get all user documents
     
         for (const userDoc of usersSnapshot.docs) {
@@ -80,6 +82,12 @@ function Home() {
                 console.log("Fetched data:", data); // Log to inspect the data structure
                 if (data.geolocation && data.DateTime) { // Ensure geolocation and DateTime data exists
                     const existingEntry = starlinkDataMap[data.ScoutID];
+                    // Update upload count for each ScoutID
+                    if (uploadCounts[data.ScoutID]) {
+                        uploadCounts[data.ScoutID]++;
+                    } else {
+                        uploadCounts[data.ScoutID] = 1;
+                    }
                     if (!existingEntry || new Date(data.DateTime) > new Date(existingEntry.DateTime)) {
                         // If there's no existing entry for this ScoutID or the current entry is more recent, update the map
                         starlinkDataMap[data.ScoutID] = {
@@ -87,7 +95,8 @@ function Home() {
                             geolocation: {
                                 latitude: data.geolocation.latitude,
                                 longitude: data.geolocation.longitude
-                            }
+                            },
+                            uploadCount: uploadCounts[data.ScoutID] // Add the upload count here
                         };
                     }
                 }
