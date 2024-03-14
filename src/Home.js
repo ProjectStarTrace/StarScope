@@ -4,8 +4,9 @@ import firebase from 'firebase/compat/app'; // Ensure this is correctly imported
 import 'firebase/compat/firestore'; // Ensure this is correctly imported based on your Firebase version
 import './Home.css';
 import Header from './Header';
-import { collection, getDocs, query, limit } from 'firebase/firestore';
-import { db } from './Firebase'; //importing the database from Firebase const js file
+import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+import { db } from './Firebase'; // Make sure db is properly imported from your Firebase config
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Set your Mapbox access token
@@ -68,44 +69,31 @@ function Home() {
   
     }, []);
   
-    async function fetchStarlinkData() {
-        const starlinkDataMap = {}; // Tracks the latest entry for each ScoutID
-        const uploadCounts = {}; // Tracks upload counts for each ScoutID
-        
-        // Perform a single read operation to get all entries
-        const starscoutDataSnapshot = await getDocs(collection(db, "starscoutData"));
+    async function fetchStarlinkData() { //temporary patch we will need to change the format of the collection itself.
+        // Create a query that orders the starscoutData by DateTime in descending order and limits the results to 100
+        const q = query(collection(db, "starscoutData"), orderBy("DateTime", "desc"), limit(100));
     
-        starscoutDataSnapshot.forEach((doc) => {
+        const querySnapshot = await getDocs(q);
+        const starlinkDataArray = [];
+    
+        querySnapshot.forEach((doc) => {
             const data = doc.data();
-    
-            if (data.geolocation && data.DateTime) { // Ensure geolocation and DateTime data exists
-                // Update upload count for each ScoutID
-                if (uploadCounts[data.ScoutID]) {
-                    uploadCounts[data.ScoutID]++;
-                } else {
-                    uploadCounts[data.ScoutID] = 1;
-                }
-    
-                // Check if the current document's date is more recent than what we have stored
-                const existingEntry = starlinkDataMap[data.ScoutID];
-                if (!existingEntry || new Date(data.DateTime) > new Date(existingEntry.DateTime)) {
-                    // Update the map with the more recent entry, including its upload count
-                    starlinkDataMap[data.ScoutID] = {
-                        ...data,
-                        geolocation: {
-                            latitude: data.geolocation.latitude,
-                            longitude: data.geolocation.longitude
-                        },
-                        uploadCount: uploadCounts[data.ScoutID] // Store the upload count here
-                    };
-                }
+            // Assuming each document includes geolocation and DateTime fields
+            if (data.geolocation && data.DateTime) {
+                // Add the document data to the array
+                starlinkDataArray.push({
+                    ...data,
+                    geolocation: {
+                        latitude: data.geolocation.latitude,
+                        longitude: data.geolocation.longitude
+                    }
+                });
             }
         });
     
-        // Convert the map (object) back into an array of its values, which are the data entries
-        return Object.values(starlinkDataMap);
+        // The array now contains up to 100 of the most recent uploads, with geolocation data formatted as needed
+        return starlinkDataArray;
     }
-    
     
     
     
